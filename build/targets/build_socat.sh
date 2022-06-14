@@ -15,9 +15,11 @@ source $GITHUB_WORKSPACE/build/lib.sh
 init_lib "$1"
 
 build_socat() {
-    fetch "http://repo.or.cz/socat.git" "${BUILD_DIRECTORY}/socat" git
+    # or.cz is down, switching to downloading source
+    #fetch "http://repo.or.cz/socat.git" "${BUILD_DIRECTORY}/socat" git
+    fetch "http://www.dest-unreach.org/socat/download/socat-1.7.4.2.tar.gz" "${BUILD_DIRECTORY}/socat" http
     cd "${BUILD_DIRECTORY}/socat"
-    git clean -fdx
+    # git clean -fdx
     autoconf
     CFLAGS="${GCC_OPTS}" \
         CXXFLAGS="${GXX_OPTS}" \
