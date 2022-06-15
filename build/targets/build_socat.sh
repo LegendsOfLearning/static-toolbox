@@ -15,6 +15,7 @@ source $GITHUB_WORKSPACE/build/lib.sh
 init_lib "$1"
 
 build_socat() {
+    set -x
     # or.cz is down, switching to downloading source
     #fetch "http://repo.or.cz/socat.git" "${BUILD_DIRECTORY}/socat" git
     #fetch "http://www.dest-unreach.org/socat/download/socat-1.7.4.2.tar.gz" "${BUILD_DIRECTORY}/socat" http
@@ -40,6 +41,7 @@ build_socat() {
             --host="$(get_host_triple)"
     make -j4
     strip socat
+    set +x
 }
 
 main() {
