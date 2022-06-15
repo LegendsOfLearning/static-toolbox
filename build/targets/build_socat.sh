@@ -17,7 +17,18 @@ init_lib "$1"
 build_socat() {
     # or.cz is down, switching to downloading source
     #fetch "http://repo.or.cz/socat.git" "${BUILD_DIRECTORY}/socat" git
-    fetch "http://www.dest-unreach.org/socat/download/socat-1.7.4.2.tar.gz" "${BUILD_DIRECTORY}/socat" http
+    #fetch "http://www.dest-unreach.org/socat/download/socat-1.7.4.2.tar.gz" "${BUILD_DIRECTORY}/socat" http
+    # fetch() using http does not work
+    # Manually fetching with http, plus sha verification
+    local socat_sha256
+    socat_sha256="d697245144731423ddbbceacabbd29447089ea223e9a439b28f9ff90d0dd216e"
+
+    curl -L "http://www.dest-unreach.org/socat/download/socat-1.7.4.3.tar.gz" > /tmp/socat.tar.gz
+    echo "${socat_sha256}  /tmp/socat.tar.gz" | sha256sum -c -
+    tar -C ${BUILD_DIRECTORY} -zxvf /tmp/socat.tar.gz
+    mv ${BUILD_DIRECTORY}/socat-1.7.4.3 ${BUILD_DIRECTORY}/socat
+    rm -f /tmp/socat.tar.gz
+
     cd "${BUILD_DIRECTORY}/socat"
     # git clean -fdx
     autoconf
